@@ -1,7 +1,7 @@
 <h1 align="center">Nairuz Abulhul</h1>
 <h3 align="center">Penetration Tester</h3>
 
-💬 About Me ***have 5 years of experience in information security, identifying vulnerabilities and weaknesses in networks, systems, and applications and providing recommendations for remediation. In addition, I have performed network, external, and web penetration security assessments for diverse clients across various industries and helped them improve their security posture.***
+💬 About Me ***I have 5 years of experience in information security, identifying vulnerabilities and weaknesses in networks, systems, and applications and providing recommendations for remediation. In addition, I have performed network, external, and web penetration security assessments for diverse clients across various industries and helped them improve their security posture.***
 &nbsp;
 &nbsp;
 
