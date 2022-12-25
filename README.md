@@ -1,10 +1,11 @@
-<h1 align="center"> Nairuz Abulhul</h1>
+<h1 align="center">Hi 👋, I'm Nairuz Abulhul</h1>
 <h3 align="center">Penetration Tester</h3>
 
-**I have 5 years of experience in information security, identifying vulnerabilities and weaknesses in networks, systems, and applications and providing recommendations for remediation. In addition, I have performed network, external, and web penetration security assessments for diverse clients across various industries and helped them improve their security posture.
-&nbsp;
-&nbsp;
-I'm passionate about staying up-to-date on the latest security threats and trends; I enjoy looking for new challenges and opportunities to learn and grow as a security professional.** 
+<p align="left"> <img src="https://komarev.com/ghpvc/?username=nairuzabulhul&label=Profile%20views&color=0e75b6&style=flat" alt="nairuzabulhul" /> </p>
+
+- 📝 I regularly write articles on [https://medium.com/r3d-buck3t](https://medium.com/r3d-buck3t)
+
+- 💬 Ask me about **I have 5 years of experience in information security, identifying vulnerabilities and weaknesses in networks, systems, and applications and providing recommendations for remediation. In addition, I have performed network, external, and web penetration security assessments for diverse clients across various industries and helped them improve their security posture. I'm passionate about staying up-to-date on the latest security threats and trends; I enjoy looking for new challenges and opportunities to learn and grow as a security professional.**
 
 - 📄 Know about my experiences [https://www.linkedin.com/in/nairuzabulhul/](https://www.linkedin.com/in/nairuzabulhul/)
 
