@@ -21,6 +21,10 @@
 - [Play with Hashes — Over Pass The Hash Attack](https://medium.com/r3d-buck3t/play-with-hashes-over-pass-the-hash-attack-2030b900562d?source=rss----25eaa8551178---4)
 <!-- BLOG-POST-LIST:END -->
 
+### 🔴 Notion Guidlines 
+- [Active Directory Pentest Methodology](https://r3dbuck3t.notion.site/Windows-Active-Directory-Pentest-Methodology-e8b133fb1342403aabde337b82f66fbd)
+- [External Pentest Methodology] ()
+
 <h3 align="left">Connect with me:</h3>
 <p align="left">
 <a href="https://twitter.com/zink0x00" target="blank"><img align="center" src="https://raw.githubusercontent.com/rahuldkjain/github-profile-readme-generator/master/src/images/icons/Social/twitter.svg" alt="zink0x00" height="30" width="40" /></a>
