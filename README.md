@@ -23,7 +23,7 @@
 
 ### 🔴 Notion Guidlines 
 - [Active Directory Pentest Methodology](https://r3dbuck3t.notion.site/Windows-Active-Directory-Pentest-Methodology-e8b133fb1342403aabde337b82f66fbd)
-- [External Pentest Methodology] ()
+- [External Pentest Methodology](https://r3dbuck3t.notion.site/External-Pentest-Methodology-487ac123a3b04feb9573d6c7870b7b64)
 
 <h3 align="left">Connect with me:</h3>
 <p align="left">
