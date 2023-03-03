@@ -21,7 +21,7 @@
 - [Attacking Kerberos Unconstrained Delegation](https://medium.com/r3d-buck3t/attacking-kerberos-unconstrained-delegation-ef77e1fb7203?source=rss----25eaa8551178---4)
 <!-- BLOG-POST-LIST:END -->
 
-### 🔴 Notion Guidlines 
+### 🔴 Tesing Guides (On Notion) 
 - [Active Directory Pentest Methodology](https://r3dbuck3t.notion.site/Windows-Active-Directory-Pentest-Methodology-e8b133fb1342403aabde337b82f66fbd)
 - [External Pentest Methodology](https://r3dbuck3t.notion.site/External-Pentest-Methodology-487ac123a3b04feb9573d6c7870b7b64)
 
