@@ -1,5 +1,4 @@
 <h1 align="center">Nairuz Abulhul</h1>
-<h3 align="center">Penetration Tester</h3>
 
 ### 🔴 R3dbuck3t Blog Posts
 <!-- BLOG-POST-LIST:START -->
