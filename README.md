@@ -1,12 +1,6 @@
 <h1 align="center">Nairuz Abulhul</h1>
 <h3 align="center">Penetration Tester</h3>
 
-💬 About Me ***I have 5 years of experience in information security, identifying vulnerabilities and weaknesses in networks, systems, and applications and providing recommendations for remediation. In addition, I have performed network, external, and web penetration security assessments for diverse clients across various industries and helped them improve their security posture.***
-&nbsp;
-&nbsp;
-
-***I'm passionate about staying up-to-date on the latest security threats and trends; I enjoy looking for new challenges and opportunities to learn and grow as a security professional.***
-
 ### 🔴 R3dbuck3t Blog Posts
 <!-- BLOG-POST-LIST:START -->
 - [CrackMapExec in Action: Enumerating Windows Networks &lpar;Part 1&rpar;](https://medium.com/r3d-buck3t/crackmapexec-in-action-enumerating-windows-networks-part-1-3a6a7e5644e9?source=rss----25eaa8551178---4)
