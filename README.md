@@ -16,7 +16,7 @@
 
 ### 🔴 Tesing Guides (On Notion) 
 - [Active Directory Pentest Methodology](https://r3dbuck3t.notion.site/Windows-Active-Directory-Pentest-Methodology-e8b133fb1342403aabde337b82f66fbd)
-- [External Pentest Methodology](https://r3dbuck3t.notion.site/External-Pentest-Methodology-487ac123a3b04feb9573d6c7870b7b64)
+- [External Pentest Methodology](https://r3dbuck3t.notion.site/External-Pentest-Methodology-2c8d2d0473814cbcae511eb99a8734c5?pvs=4)
 
 <h3 align="left">Connect with me:</h3>
 <p align="left">
