@@ -50,5 +50,6 @@
 
 
 ##test
+![GCP Hours](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnairuzabulhul%2Fnairuzabulhul%2Fmain%2Fbadges%2Fgcp.json&cacheSeconds=60)
 
-![GCP Hours](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/nairuzabulhul/nairuzabulhul/refs/heads/main/badges/gcp.json&cacheSeconds=300)
+
