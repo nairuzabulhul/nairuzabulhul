@@ -48,3 +48,7 @@
 
 <p><img align="center" src="https://github-readme-streak-stats.herokuapp.com/?user=nairuzabulhul&" alt="nairuzabulhul" /></p>
 
+
+##test
+<!-- GCP -->
+![GCP Hours](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/1403977421f231a5806af387d63ea0c5/raw/gcp.json&logo=googlecloud)
