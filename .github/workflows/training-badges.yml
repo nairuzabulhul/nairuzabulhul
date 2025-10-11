@@ -1,68 +1,62 @@
 name: Update training badges
 
 on:
-  # Runs automatically whenever you update your CSV or scripts
   push:
     paths:
       - "data/**"
       - "scripts/**"
       - ".github/workflows/training-badges.yml"
-  # Also runs every 6 hours automatically
   schedule:
     - cron: "0 */6 * * *"
-  workflow_dispatch: {}   # allows manual runs
+  workflow_dispatch: {}
+
+permissions:
+  contents: write   # allow the workflow to push JSON back to the repo
 
 jobs:
-  build-and-publish:
+  build-and-commit:
     runs-on: ubuntu-latest
-
     steps:
-      # 1️⃣ Checkout your repo
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+          fetch-depth: 0
 
-      # 2️⃣ Show directory structure (debugging)
-      - name: Show repo tree
+      - name: Show repo tree (debug)
         run: |
-          echo "Current working directory: $(pwd)"
-          echo "==== data/ directory ===="
+          echo "PWD=$(pwd)"
+          ls -la
+          echo "--- data/ ---"
           ls -la data || true
-          echo "==== scripts/ directory ===="
+          echo "--- scripts/ ---"
           ls -la scripts || true
-          echo "==== First lines of training.csv ===="
-          head -n 10 data/training.csv || true
+          echo "--- head of training.csv ---"
+          sed -n '1,20p' data/training.csv || true
 
-      # 3️⃣ Setup Python
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.x"
 
-      # 4️⃣ Install dependencies (PyYAML optional)
-      - name: Install dependencies
+      - name: Install optional deps
         run: |
           python -m pip install --upgrade pip
           pip install pyyaml || true
 
-      # 5️⃣ Run your badge builder script
-      - name: Build badge JSONs from CSV
+      - name: Build badge JSONs
         run: |
           python scripts/build_badges.py
-          echo "--- Badges directory contents ---"
+          echo "--- badges/ output ---"
           ls -la badges
-          echo "--- JSON preview ---"
           for f in badges/*.json; do echo "== $f =="; cat "$f"; echo; done
 
-      # 6️⃣ Upload as an artifact (optional debugging)
-      - name: Upload badge JSONs as artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: badges-json
-          path: badges/*.json
-
-      # 7️⃣ Publish JSONs to your Gist (auto-updates live badges)
-      - name: Publish to Gist
-        uses: exuanbo/actions-deploy-gist@v1
-        with:
-          token: ${{ secrets.GIST_TOKEN }}
-          gist_id: 1403977421f231a5806af387d63ea0c5   # replace with your own
-          file_path: badges
+      - name: Commit updated badges to repo
+        env:
+          BRANCH_NAME: ${{ github.ref_name }}
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add badges/*.json
+          git diff --cached --quiet && echo "No changes in badges; skipping commit." && exit 0
+          git commit -m "Update training badges [skip ci]"
+          git push origin "${BRANCH_NAME}"
