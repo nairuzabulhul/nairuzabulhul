@@ -1,117 +1,132 @@
 #!/usr/bin/env python3
-import csv, json, collections, pathlib, sys, datetime, io, os
+import csv, json, pathlib, io, re, datetime
 
-# Allow override via env if needed
-REPO_ROOT = pathlib.Path(__file__).resolve().parents[1]
-CSV_PATH = pathlib.Path(os.environ.get("TRAINING_CSV", REPO_ROOT / "data" / "training.csv"))
-OUT_DIR = pathlib.Path(os.environ.get("BADGES_DIR", REPO_ROOT / "badges"))
-GOALS_PATH = REPO_ROOT / "data" / "goals.yml"  # optional
+ROOT = pathlib.Path(__file__).resolve().parents[1]
+CSV_PATH = ROOT / "data" / "training.csv"
+OUT_DIR = ROOT / "badges"
 
-def read_csv_rows(path: pathlib.Path):
+# ---- Helpers ---------------------------------------------------------------
+
+def slugify(name: str) -> str:
+    """
+    Safe filename from category: lower, non-alnum -> underscore, collapse underscores.
+    'Active Directory' -> 'active_directory'
+    'GCP' -> 'gcp'
+    """
+    s = name.strip().lower()
+    s = re.sub(r"[^a-z0-9]+", "_", s)
+    s = re.sub(r"_+", "_", s).strip("_")
+    return s or "unnamed"
+
+def read_rows(path: pathlib.Path):
+    """
+    Robust CSV reader:
+    - tolerates UTF-8 BOM
+    - tolerates ';' separated exports
+    - case-insensitive headers
+    - skips blank lines
+    """
     if not path.exists():
         raise FileNotFoundError(f"CSV not found at: {path}")
-    text = path.read_bytes().decode("utf-8-sig", errors="replace")
-    text = text.replace("\r\n", "\n").replace("\r", "\n")
-    # tolerate semicolon-delimited exports
-    if text.count(";") > text.count(","):
-        text = text.replace(";", ",")
-    f = io.StringIO(text)
-    r = csv.reader(f)
+
+    raw = path.read_bytes().decode("utf-8-sig", errors="replace")
+    raw = raw.replace("\r\n", "\n").replace("\r", "\n")
+    if raw.count(";") > raw.count(","):
+        raw = raw.replace(";", ",")
+
+    f = io.StringIO(raw)
+    reader = csv.reader(f)
     try:
-        header = next(r)
+        header = next(reader)
     except StopIteration:
         return []
+
     cols = [h.strip().lower() for h in header]
     rows = []
-    for row in r:
-        if not any(cell.strip() for cell in row):
+    for row in reader:
+        if not any((c or "").strip() for c in row):
             continue
+        # pad short rows
         if len(row) < len(cols):
-            row += [""] * (len(cols) - len(row))
-        rows.append({cols[i]: row[i].strip() for i in range(len(cols))})
+            row = row + [""] * (len(cols) - len(row))
+        rows.append({cols[i]: (row[i] or "").strip() for i in range(len(cols))})
     return rows
 
-def load_goals():
-    if not GOALS_PATH.exists():
-        return {}
+def parse_hours(s: str) -> float:
+    if s is None:
+        return 0.0
+    s = s.strip()
+    if not s:
+        return 0.0
+    # allow "2,5" (comma decimal)
+    s = s.replace(",", ".")
     try:
-        import yaml
+        return float(s)
     except Exception:
-        return {}
-    data = (GOALS_PATH.read_text(encoding="utf-8") or "").strip()
-    if not data:
-        return {}
-    raw = yaml.safe_load(data) or {}
-    goals = {}
-    for k, v in raw.items():
-        try:
-            goals[str(k)] = float(v)
-        except Exception:
-            pass
-    return goals
+        return 0.0
 
-def color_for(value: float, goal: float) -> str:
-    if goal <= 0:
-        return "blue"
-    pct = value / goal
-    if pct >= 1.0: return "brightgreen"
-    if pct >= 0.75: return "green"
-    if pct >= 0.5: return "yellow"
-    if pct >= 0.25: return "orange"
-    return "red"
+def shield(label: str, value: float, color: str = "blue") -> dict:
+    return {
+        "schemaVersion": 1,
+        "label": f"{label} Hours",
+        "message": f"{value:.2f}",
+        "color": color
+    }
 
-def shield(label: str, value: float, color: str) -> dict:
-    return {"schemaVersion": 1, "label": f"{label} Hours", "message": f"{value:.2f}", "color": color}
+# Simple color ramp vs. optional goals (omit goals for now)
+def color_for(value: float) -> str:
+    if value >= 40: return "brightgreen"
+    if value >= 20: return "green"
+    if value >= 10: return "yellow"
+    if value >= 5:  return "orange"
+    return "blue"
+
+# ---- Main ------------------------------------------------------------------
 
 def main():
-    rows = read_csv_rows(CSV_PATH)
+    rows = read_rows(CSV_PATH)
     if not rows:
-        print("ERROR: CSV is empty or only header.", file=sys.stderr)
-        sys.exit(4)
+        raise SystemExit("No data in CSV (empty or header only).")
 
-    need = {"category", "hours"}
+    # Require at least these two columns (case-insensitive)
     have = set(rows[0].keys())
-    if not need.issubset(have):
-        print(f"ERROR: CSV missing required column(s): {sorted(need - have)}; have={sorted(have)}", file=sys.stderr)
-        sys.exit(3)
+    need = {"category", "hours"}
+    missing = need - have
+    if missing:
+        raise SystemExit(f"CSV missing required column(s): {sorted(missing)} (have: {sorted(have)})")
 
-    totals = collections.Counter()
-    skipped = 0
+    # Aggregate hours per category (dynamic)
+    totals = {}
     for r in rows:
         cat = (r.get("category") or "").strip()
         if not cat:
-            skipped += 1; continue
-        try:
-            hrs = float((r.get("hours") or "0").replace(",", "."))
-        except Exception:
-            skipped += 1; continue
-        totals[cat] += hrs
+            continue
+        hrs = parse_hours(r.get("hours"))
+        totals[cat] = totals.get(cat, 0.0) + hrs
 
-    totals["Total"] = sum(totals.values())
-    if sum(totals.values()) == 0:
-        print("WARNING: Computed total is 0. Did the CSV contain non-numeric hours?", file=sys.stderr)
-
-    print("== Parsed category totals from CSV ==")
-    for k, v in totals.items():
-        print(f"{k}: {v:.2f}")
-
-    goals = load_goals()
+    # Output directory
     OUT_DIR.mkdir(exist_ok=True)
 
-    # Always overwrite JSON from CSV
-    for cat, val in totals.items():
-        color = color_for(val, goals.get(cat, 0.0))
-        payload = shield(cat, val, color)
-        out = OUT_DIR / f"{cat.lower().replace(' ', '_')}.json"
+    # One file per category
+    for cat, val in sorted(totals.items(), key=lambda kv: kv[0].lower()):
+        out = OUT_DIR / f"{slugify(cat)}.json"
+        payload = shield(cat, val, color_for(val))
         out.write_text(json.dumps(payload), encoding="utf-8")
         print(f"Wrote {out} -> {payload}")
 
+    # Total file
+    total_val = sum(totals.values())
+    (OUT_DIR / "total.json").write_text(
+        json.dumps(shield("Total", total_val, color_for(total_val))), encoding="utf-8"
+    )
+    print(f"Wrote {OUT_DIR/'total.json'} -> Total={total_val:.2f}")
+
+    # Small summary for debugging
     summary = {
         "generated_at": datetime.datetime.utcnow().isoformat() + "Z",
         "csv_path": str(CSV_PATH),
-        "rows_parsed": len(rows),
-        "rows_skipped": skipped,
-        "categories": dict(totals)
+        "categories": totals,
+        "total": total_val
     }
     (OUT_DIR / "summary.json").write_text(json.dumps(summary, indent=2), encoding="utf-8")
     print("Summary:", json.dumps(summary, indent=2))
