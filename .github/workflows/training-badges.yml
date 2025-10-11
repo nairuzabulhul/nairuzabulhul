@@ -19,28 +19,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          persist-credentials: true
           fetch-depth: 0
+          persist-credentials: true
 
       - name: Show repo tree (debug)
         run: |
           echo "PWD=$(pwd)"
+          ls -la
           echo "--- data/ ---"
           ls -la data || true
-          echo "--- scripts/ ---"
-          ls -la scripts || true
           echo "--- head of training.csv ---"
-          sed -n '1,25p' data/training.csv || { echo "training.csv missing"; exit 2; }
+          sed -n '1,25p' data/training.csv || true
 
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.x"
-
-      - name: Install optional deps
-        run: |
-          python -m pip install --upgrade pip
-          pip install pyyaml || true
 
       - name: Build badge JSONs
         run: |
@@ -48,8 +42,6 @@ jobs:
           echo "--- badges/ output ---"
           ls -la badges
           for f in badges/*.json; do echo "== $f =="; cat "$f"; echo; done
-          echo "--- summary ---"
-          cat badges/summary.json || true
 
       - name: Commit updated badges to repo
         env:
