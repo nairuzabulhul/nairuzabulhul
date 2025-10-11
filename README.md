@@ -49,11 +49,8 @@
 <p><img align="center" src="https://github-readme-streak-stats.herokuapp.com/?user=nairuzabulhul&" alt="nairuzabulhul" /></p>
 
 
-##test
-![GCP Hours](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnairuzabulhul%2Fnairuzabulhul%2Frefs%2Fheads%2Fmain%2Fbadges%2Fgcp.json&cacheSeconds=60)
 
-
-## TEST
+<!--
 <div align="center" style="
   margin: 12px auto; padding: 16px 18px;
   border: 1px solid #e2e8f0; border-radius: 14px;
@@ -80,7 +77,7 @@
          alt="Training Hours by Category" style="width: 100%; border-radius: 10px;"/>
   </div>
 </div>
-
+-->
 
 
 
