@@ -1,17 +1,19 @@
 #!/usr/bin/env python3
-import csv, json, collections, pathlib, sys, datetime, io
+import csv, json, collections, pathlib, sys, datetime, io, os
 
-ROOT = pathlib.Path(__file__).resolve().parents[1]
-CSV_PATH = ROOT / "data" / "training.csv"
-OUT_DIR = ROOT / "badges"
-GOALS_PATH = ROOT / "data" / "goals.yml"  # optional
+# Allow override via env if needed
+REPO_ROOT = pathlib.Path(__file__).resolve().parents[1]
+CSV_PATH = pathlib.Path(os.environ.get("TRAINING_CSV", REPO_ROOT / "data" / "training.csv"))
+OUT_DIR = pathlib.Path(os.environ.get("BADGES_DIR", REPO_ROOT / "badges"))
+GOALS_PATH = REPO_ROOT / "data" / "goals.yml"  # optional
 
 def read_csv_rows(path: pathlib.Path):
     if not path.exists():
         raise FileNotFoundError(f"CSV not found at: {path}")
     text = path.read_bytes().decode("utf-8-sig", errors="replace")
     text = text.replace("\r\n", "\n").replace("\r", "\n")
-    if text.count(";") > text.count(","):  # tolerate ; exports
+    # tolerate semicolon-delimited exports
+    if text.count(";") > text.count(","):
         text = text.replace(";", ",")
     f = io.StringIO(text)
     r = csv.reader(f)
@@ -33,7 +35,7 @@ def load_goals():
     if not GOALS_PATH.exists():
         return {}
     try:
-        import yaml  # optional
+        import yaml
     except Exception:
         return {}
     data = (GOALS_PATH.read_text(encoding="utf-8") or "").strip()
@@ -64,11 +66,13 @@ def shield(label: str, value: float, color: str) -> dict:
 def main():
     rows = read_csv_rows(CSV_PATH)
     if not rows:
-        print("No rows found in CSV; creating zeroed badges.")
-    have = set(rows[0].keys()) if rows else set()
+        print("ERROR: CSV is empty or only header.", file=sys.stderr)
+        sys.exit(4)
+
     need = {"category", "hours"}
+    have = set(rows[0].keys())
     if not need.issubset(have):
-        print(f"ERROR: CSV missing required column(s): {sorted(need - have)}", file=sys.stderr)
+        print(f"ERROR: CSV missing required column(s): {sorted(need - have)}; have={sorted(have)}", file=sys.stderr)
         sys.exit(3)
 
     totals = collections.Counter()
@@ -84,12 +88,17 @@ def main():
         totals[cat] += hrs
 
     totals["Total"] = sum(totals.values())
+    if sum(totals.values()) == 0:
+        print("WARNING: Computed total is 0. Did the CSV contain non-numeric hours?", file=sys.stderr)
+
+    print("== Parsed category totals from CSV ==")
+    for k, v in totals.items():
+        print(f"{k}: {v:.2f}")
+
     goals = load_goals()
-
     OUT_DIR.mkdir(exist_ok=True)
-    if not totals:
-        totals = {"Total": 0.0}
 
+    # Always overwrite JSON from CSV
     for cat, val in totals.items():
         color = color_for(val, goals.get(cat, 0.0))
         payload = shield(cat, val, color)
@@ -99,6 +108,7 @@ def main():
 
     summary = {
         "generated_at": datetime.datetime.utcnow().isoformat() + "Z",
+        "csv_path": str(CSV_PATH),
         "rows_parsed": len(rows),
         "rows_skipped": skipped,
         "categories": dict(totals)
