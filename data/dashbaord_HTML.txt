@@ -1,0 +1,28 @@
+<!--
+<div align="center" style="
+  margin: 12px auto; padding: 16px 18px;
+  border: 1px solid #e2e8f0; border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(2,6,23,0.06);
+  max-width: 940px; background: linear-gradient(180deg,#0D1117 0%, #0B1220 100%);
+">
+  <h2 style="margin: 0 0 8px; color: #E6EDF3;">🚀 Professional Training Dashboard</h2>
+  <p style="margin: 0 0 16px; color:#94A3B8;">Auto-updated from <code>data/training.csv</code></p>
+
+  <!-- Badge row(s) -->
+  <div>
+    <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnairuzabulhul%2Fnairuzabulhul%2Fmain%2Fbadges%2Fgcp.json&style=for-the-badge&logo=googlecloud&logoColor=white&labelColor=0D1117&color=4285F4&cacheSeconds=600"/>
+    <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnairuzabulhul%2Fnairuzabulhul%2Fmain%2Fbadges%2Fazure.json&style=for-the-badge&logo=microsoftazure&logoColor=white&labelColor=0D1117&color=0078D4&cacheSeconds=600"/>
+    <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnairuzabulhul%2Fnairuzabulhul%2Fmain%2Fbadges%2Faws.json&style=for-the-badge&logo=amazonaws&logoColor=white&labelColor=0D1117&color=FF9900&cacheSeconds=600"/>
+    <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnairuzabulhul%2Fnairuzabulhul%2Fmain%2Fbadges%2Factive_directory.json&style=for-the-badge&logo=windows&logoColor=white&labelColor=0D1117&color=0067B8&cacheSeconds=600"/>
+    <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnairuzabulhul%2Fnairuzabulhul%2Fmain%2Fbadges%2Flinux.json&style=for-the-badge&logo=linux&logoColor=black&labelColor=F7DF1E&color=000000&cacheSeconds=600"/>
+    <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnairuzabulhul%2Fnairuzabulhul%2Fmain%2Fbadges%2Fpublic_speaking.json&style=for-the-badge&logo=googlepodcasts&logoColor=white&labelColor=0D1117&color=9333EA&cacheSeconds=600"/>
+    <img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fnairuzabulhul%2Fnairuzabulhul%2Fmain%2Fbadges%2Ftotal.json&style=for-the-badge&logo=readthedocs&logoColor=white&labelColor=0D1117&color=22C55E&cacheSeconds=600"/>
+  </div>
+
+  <!-- Chart -->
+  <div style="margin-top: 16px;">
+    <img src="https://raw.githubusercontent.com/nairuzabulhul/nairuzabulhul/main/charts/training.png"
+         alt="Training Hours by Category" style="width: 100%; border-radius: 10px;"/>
+  </div>
+</div>
+-->
