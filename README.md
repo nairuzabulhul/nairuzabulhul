@@ -51,4 +51,4 @@
 
 ##test
 <!-- GCP -->
-![GCP Hours](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/1403977421f231a5806af387d63ea0c5/raw/gcp.json&logo=googlecloud)
+![GCP Hours](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/nairuzabulhul/1403977421f231a5806af387d63ea0c5/raw/7f6c77b985146108df55eaa6332876ec230f2886/gcp.json&logo=googlecloud)
